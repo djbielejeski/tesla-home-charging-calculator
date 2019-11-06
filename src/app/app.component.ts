@@ -27,10 +27,8 @@ export class AppComponent {
 
   get calculatedPrice(): string {
     // amps * volts = watts
-    // (watts / 1000) * kwhPrice * (hours + minutes)
-
-
-    return '' + ((this.dataStoreService.amps * this.dataStoreService.voltage) / 1000) * this.dataStoreService.kwhPrice * this.hoursNeeded();
+    // (watts / 1000) * kwhPrice * (hours + minutes) * 0.8 (efficiency)
+    return '' + ((this.dataStoreService.amps * this.dataStoreService.voltage) / 1000) * 0.8 * this.dataStoreService.kwhPrice * this.hoursNeeded();
   }
 
   get hoursToCharge(): string {
