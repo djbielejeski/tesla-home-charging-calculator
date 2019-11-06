@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-9">
+      <!-- Main Panel -->
+
+      <div class="output-container">
+        <div class="background-tesla">
+          TESLA
+        </div>
+        <div class="output">
+
+          <div class="row">
+            <div class="col text-center border-right">
+              <div class="detail">
+                {{ calculatedPrice | currency:'USD' }}
+              </div>
+              <div class="description">
+                Cost
+              </div>
+            </div>
+            <div class="col text-center border-right">
+              <div class="detail">
+                {{ minMilesPerHourChargeRate }} - {{ maxMilesPerHourChargeRate }}
+              </div>
+              <div class="description">
+                Charge Rate (mph)
+              </div>
+            </div>
+            <div class="col text-center border-right">
+              <div class="detail">
+                {{ minMilesAddedPerHour }} - {{maxMilesAddedPerHour}}
+              </div>
+              <div class="description">
+                Range added (miles)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 border-left">
+      <!-- right sidebar -->
+      <div class="mb-5">
+        <h2 class="my-3">
+          Presets
+        </h2>
+        <hr>
+        <button class="tesla-button-style" [class.selected]="amps == 80 && voltage == 240" (click)="teslaWallCharger()">Tesla Wall Charger</button>
+        <button class="tesla-button-style" [class.selected]="amps == 50 && voltage == 240" (click)="nema1450()">Nema 14-50</button>
+        <button class="tesla-button-style" [class.selected]="amps == 15 && voltage == 120" (click)="amp(15)">Standard Outlet</button>
+      </div>
+
+      <div class="mb-5">
+        <h2 class="my-3">
+          Electricity
+        </h2>
+        <hr>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" placeholder="0.09" name="kwhPrice" [(ngModel)]="kwhPrice">
+          <div class="input-group-append">
+            <span class="input-group-text">$/kWh&nbsp;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <h2 class="my-3">
+          Outlet
+        </h2>
+        <hr>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" placeholder="50" name="amps" [(ngModel)]="amps">
+          <div class="input-group-append">
+            <span class="input-group-text">&nbsp;amps&nbsp;&nbsp;</span>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" placeholder="240" name="voltage" [(ngModel)]="voltage">
+          <div class="input-group-append">
+            <span class="input-group-text">voltage</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <h2 class="my-3">Charge Time</h2>
+        <hr>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" placeholder="1" name="hours" [(ngModel)]="hours">
+          <div class="input-group-append">
+            <span class="input-group-text">&nbsp;&nbsp;hours&nbsp;&nbsp;</span>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" placeholder="15" name="minutes" [(ngModel)]="minutes">
+          <div class="input-group-append">
+            <span class="input-group-text">minutes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
