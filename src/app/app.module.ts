@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
+import { DataStoreService } from '../shared/services/data-store.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -12,7 +14,9 @@ import { AppComponent } from './app.component';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    DataStoreService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

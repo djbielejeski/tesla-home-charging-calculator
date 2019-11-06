@@ -9,11 +9,11 @@
           <div class="row mb-3">
             <div class="col text-center">
               Charging your car via a "{{ outletDescription }}" for
-              <span *ngIf="selectedOption == 'Time'">
-                {{ hours }} hours {{ minutes ? minutes + ' minutes' : '' }}
+              <span *ngIf="dataStoreService.selectedOption == 'Time'">
+                {{ dataStoreService.hours }} hours {{ dataStoreService.minutes ? dataStoreService.minutes + ' minutes' : '' }}
               </span>
-              <span *ngIf="selectedOption == 'Distance'">
-                {{ distance }} miles
+              <span *ngIf="dataStoreService.selectedOption == 'Distance'">
+                {{ dataStoreService.distance }} miles
               </span>
             </div>
           </div>
@@ -28,18 +28,18 @@
             </div>
             <div class="col text-center border-right">
               <div class="detail">
-                <span *ngIf="selectedOption == 'Time'">
+                <span *ngIf="dataStoreService.selectedOption == 'Time'">
                   {{ minMilesAddedPerHour }} - {{maxMilesAddedPerHour}}
                 </span>
-                <span *ngIf="selectedOption == 'Distance'">
+                <span *ngIf="dataStoreService.selectedOption == 'Distance'">
                   ~{{ hoursToCharge }}
                 </span>
               </div>
               <div class="description">
-                <span *ngIf="selectedOption == 'Time'">
+                <span *ngIf="dataStoreService.selectedOption == 'Time'">
                   Range added (miles)
                 </span>
-                <span *ngIf="selectedOption == 'Distance'">
+                <span *ngIf="dataStoreService.selectedOption == 'Distance'">
                   Charge Time
                 </span>
               </div>
@@ -49,7 +49,7 @@
                 {{ minMilesPerHourChargeRate }} - {{ maxMilesPerHourChargeRate }}
               </div>
               <div class="description">
-                Charge Rate (mph)
+                Charge Rate (miles / hour of charge)
               </div>
             </div>
           </div>
@@ -63,9 +63,9 @@
           Presets
         </h2>
         <hr>
-        <button class="tesla-button-style" [class.selected]="amps == 80 && voltage == 240" (click)="teslaWallCharger()">Tesla Wall Charger</button>
-        <button class="tesla-button-style" [class.selected]="amps == 50 && voltage == 240" (click)="nema1450()">NEMA 14-50</button>
-        <button class="tesla-button-style" [class.selected]="amps == 15 && voltage == 120" (click)="amp(15)">Standard Outlet</button>
+        <button class="tesla-button-style" [class.selected]="dataStoreService.amps == 80 && dataStoreService.voltage == 240" (click)="teslaWallCharger()">Tesla Wall Charger</button>
+        <button class="tesla-button-style" [class.selected]="dataStoreService.amps == 50 && dataStoreService.voltage == 240" (click)="nema1450()">NEMA 14-50</button>
+        <button class="tesla-button-style" [class.selected]="dataStoreService.amps == 15 && dataStoreService.voltage == 120" (click)="amp(15)">Standard Outlet</button>
       </div>
 
       <div class="mb-5">
@@ -74,7 +74,7 @@
         </h2>
         <hr>
         <div class="input-group mb-3">
-          <input type="number" class="form-control" placeholder="0.00" name="kwhPrice" [(ngModel)]="kwhPrice">
+          <input type="number" class="form-control" placeholder="0.00" name="kwhPrice" [(ngModel)]="dataStoreService.kwhPrice">
           <div class="input-group-append">
             <span class="input-group-text">$/kWh&nbsp;</span>
           </div>
@@ -87,13 +87,13 @@
         </h2>
         <hr>
         <div class="input-group mb-3">
-          <input type="number" class="form-control" placeholder="00" name="amps" [(ngModel)]="amps">
+          <input type="number" class="form-control" placeholder="00" name="amps" [(ngModel)]="dataStoreService.amps">
           <div class="input-group-append">
             <span class="input-group-text">&nbsp;amps&nbsp;&nbsp;</span>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="number" class="form-control" placeholder="120/240" name="voltage" [(ngModel)]="voltage">
+          <input type="number" class="form-control" placeholder="120/240" name="voltage" [(ngModel)]="dataStoreService.voltage">
           <div class="input-group-append">
             <span class="input-group-text">voltage</span>
           </div>
@@ -105,30 +105,30 @@
         <hr>
 
         <div class="btn-group btn-group-toggle btn-block mb-3" data-toggle="buttons">
-          <label class="btn btn-primary" [class.active]="selectedOption == 'Time'">
-            <input type="radio" name="options" autocomplete="off" [checked]="selectedOption == 'Time'" (click)="selectedOption = 'Time'"> Time
+          <label class="btn btn-primary" [class.active]="dataStoreService.selectedOption == 'Time'">
+            <input type="radio" name="options" autocomplete="off" [checked]="dataStoreService.selectedOption == 'Time'" (click)="dataStoreService.selectedOption = 'Time'"> Time
           </label>
-          <label class="btn btn-primary" [class.active]="selectedOption == 'Distance'">
-            <input type="radio" name="options" autocomplete="off" [checked]="selectedOption == 'Distance'" (click)="selectedOption = 'Distance'"> Distance
+          <label class="btn btn-primary" [class.active]="dataStoreService.selectedOption == 'Distance'">
+            <input type="radio" name="options" autocomplete="off" [checked]="dataStoreService.selectedOption == 'Distance'" (click)="dataStoreService.selectedOption = 'Distance'"> Distance
           </label>
         </div>
-        <div *ngIf="selectedOption == 'Time'">
+        <div *ngIf="dataStoreService.selectedOption == 'Time'">
           <div class="input-group mb-3">
-            <input type="number" class="form-control" placeholder="0" name="hours" [(ngModel)]="hours">
+            <input type="number" class="form-control" placeholder="0" name="hours" [(ngModel)]="dataStoreService.hours">
             <div class="input-group-append">
               <span class="input-group-text">&nbsp;&nbsp;hours&nbsp;&nbsp;</span>
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="number" class="form-control" placeholder="00" name="minutes" [(ngModel)]="minutes">
+            <input type="number" class="form-control" placeholder="00" name="minutes" [(ngModel)]="dataStoreService.minutes">
             <div class="input-group-append">
               <span class="input-group-text">minutes</span>
             </div>
           </div>
         </div>
-        <div *ngIf="selectedOption == 'Distance'">
+        <div *ngIf="dataStoreService.selectedOption == 'Distance'">
           <div class="input-group mb-3">
-            <input type="number" class="form-control" placeholder="000" name="distance" [(ngModel)]="distance">
+            <input type="number" class="form-control" placeholder="000" name="distance" [(ngModel)]="dataStoreService.distance">
             <div class="input-group-append">
               <span class="input-group-text">&nbsp;&nbsp;miles&nbsp;&nbsp;</span>
             </div>
@@ -138,3 +138,7 @@
     </div>
   </div>
 </div>
+
+<footer class="text-center p-2 border-top">
+  <a href="https://ts.la/david26112" target="_blank">Buy a Tesla</a>
+</footer>

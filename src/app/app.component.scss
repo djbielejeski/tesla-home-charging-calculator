@@ -1,7 +1,7 @@
 
 .output-container {
   position: relative;
-  height: 100vh;
+  height: calc(100vh - 41px);
   width: 100%;
 
   .background-tesla {
