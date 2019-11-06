@@ -45,12 +45,25 @@ export class AppComponent {
 
   get maxMilesPerHourChargeRate(): string {
     // 50 * 240 = 12000 = 34mph = 0.0028333333333333‬
-    return Number.parseFloat('' + this.dataStoreService.amps * this.dataStoreService.voltage * 0.0028333333333333).toFixed(1);
+    let value = this.dataStoreService.amps * this.dataStoreService.voltage * 0.0028333333333333;
+
+    if(this.dataStoreService.distanceType == 'Kilometers') {
+      value *= 1.609;
+    }
+
+    return Number.parseFloat('' + value).toFixed(1);
+
   }
 
   get minMilesPerHourChargeRate(): string {
     // 15 * 120 = 1800 = 4mph = 0.0022222222222222
-    return Number.parseFloat('' + this.dataStoreService.amps * this.dataStoreService.voltage * 0.0022222222222222).toFixed(1);
+    let value = this.dataStoreService.amps * this.dataStoreService.voltage * 0.0022222222222222;
+
+    if(this.dataStoreService.distanceType == 'Kilometers') {
+      value *= 1.609;
+    }
+
+    return Number.parseFloat('' + value).toFixed(1);
   }
 
   get maxMilesAddedPerHour() {
@@ -65,8 +78,11 @@ export class AppComponent {
     if(this.dataStoreService.amps == 80 && this.dataStoreService.voltage == 240) {
       return "Tesla Wall Charger"
     }
+    else if (this.dataStoreService.amps == 40 && this.dataStoreService.voltage == 240) {
+      return "Generation 1 - NEMA 14-50 Outlet (40 amp)"
+    }
     else if (this.dataStoreService.amps == 50 && this.dataStoreService.voltage == 240) {
-      return "NEMA 14-50 Outlet"
+      return "Generation 2 - NEMA 14-50 Outlet (50 amp)"
     }
     else if (this.dataStoreService.amps == 15 && this.dataStoreService.voltage == 120) {
       return "Standard Outlet"
@@ -76,7 +92,12 @@ export class AppComponent {
     }
   }
 
-  nema1450() {
+  get1Nema1450() {
+    this.dataStoreService.amps = 40;
+    this.dataStoreService.voltage = 240;
+  }
+
+  gen2Nema1450() {
     this.dataStoreService.amps = 50;
     this.dataStoreService.voltage = 240;
   }

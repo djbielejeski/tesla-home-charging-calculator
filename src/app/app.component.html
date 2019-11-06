@@ -17,7 +17,7 @@
                 {{ dataStoreService.hours }} hours {{ dataStoreService.minutes ? dataStoreService.minutes + ' minutes' : '' }}
               </span>
               <span *ngIf="dataStoreService.selectedOption == 'Distance'">
-                {{ dataStoreService.distance }} miles
+                {{ dataStoreService.distance }} {{ dataStoreService.distanceType == 'Miles' ? 'miles' : 'kilometers' }}
               </span>
             </div>
           </div>
@@ -41,7 +41,7 @@
               </div>
               <div class="description">
                 <span *ngIf="dataStoreService.selectedOption == 'Time'">
-                  Range added (miles)
+                  Range added ({{ dataStoreService.distanceType == 'Miles' ? 'miles' : 'kilometers' }})
                 </span>
                 <span *ngIf="dataStoreService.selectedOption == 'Distance'">
                   Charge Time
@@ -53,7 +53,7 @@
                 {{ minMilesPerHourChargeRate }} - {{ maxMilesPerHourChargeRate }}
               </div>
               <div class="description">
-                Charge Rate (miles / hour of charge)
+                Charge Rate ({{ dataStoreService.distanceType == 'Miles' ? 'miles' : 'kilometers' }} / hour of charge)
               </div>
             </div>
           </div>
@@ -68,8 +68,24 @@
         </h2>
         <hr>
         <button class="tesla-button-style" [class.selected]="dataStoreService.amps == 80 && dataStoreService.voltage == 240" (click)="teslaWallCharger()">Tesla Wall Charger</button>
-        <button class="tesla-button-style" [class.selected]="dataStoreService.amps == 50 && dataStoreService.voltage == 240" (click)="nema1450()">NEMA 14-50</button>
+        <button class="tesla-button-style" [class.selected]="dataStoreService.amps == 40 && dataStoreService.voltage == 240" (click)="get1Nema1450()">Gen1 - NEMA 14-50 (40 amp)</button>
+        <button class="tesla-button-style" [class.selected]="dataStoreService.amps == 50 && dataStoreService.voltage == 240" (click)="gen2Nema1450()">Gen2 - NEMA 14-50 (50 amp)</button>
         <button class="tesla-button-style" [class.selected]="dataStoreService.amps == 15 && dataStoreService.voltage == 120" (click)="amp(15)">Standard Outlet</button>
+      </div>
+
+      <div class="mb-5">
+        <h2 class="my-3">
+          Distance
+        </h2>
+        <hr>
+        <div class="btn-group btn-group-toggle btn-block mb-3" data-toggle="buttons">
+          <label class="btn btn-outline-primary big-border-radius" [class.active]="dataStoreService.distanceType == 'Miles'">
+            <input type="radio" name="distanceType" autocomplete="off" [checked]="dataStoreService.distanceType == 'Miles'" (click)="dataStoreService.distanceType = 'Miles'"> Miles
+          </label>
+          <label class="btn btn-outline-primary big-border-radius" [class.active]="dataStoreService.distanceType == 'Kilometers'">
+            <input type="radio" name="distanceType" autocomplete="off" [checked]="dataStoreService.distanceType == 'Kilometers'" (click)="dataStoreService.distanceType = 'Kilometers'"> Kilometers
+          </label>
+        </div>
       </div>
 
       <div class="mb-5">
@@ -78,7 +94,7 @@
         </h2>
         <hr>
         <div class="input-group mb-3">
-          <input type="number" class="form-control" placeholder="0.00" name="kwhPrice" [(ngModel)]="dataStoreService.kwhPrice">
+          <input type="number" class="form-control" placeholder="0.00" name="kwhPrice" step="0.01" [(ngModel)]="dataStoreService.kwhPrice">
           <div class="input-group-append">
             <span class="input-group-text">$/kWh&nbsp;</span>
           </div>
@@ -109,10 +125,10 @@
         <hr>
 
         <div class="btn-group btn-group-toggle btn-block mb-3" data-toggle="buttons">
-          <label class="btn btn-primary" [class.active]="dataStoreService.selectedOption == 'Time'">
+          <label class="btn btn-outline-primary big-border-radius" [class.active]="dataStoreService.selectedOption == 'Time'">
             <input type="radio" name="options" autocomplete="off" [checked]="dataStoreService.selectedOption == 'Time'" (click)="dataStoreService.selectedOption = 'Time'"> Time
           </label>
-          <label class="btn btn-primary" [class.active]="dataStoreService.selectedOption == 'Distance'">
+          <label class="btn btn-outline-primary big-border-radius" [class.active]="dataStoreService.selectedOption == 'Distance'">
             <input type="radio" name="options" autocomplete="off" [checked]="dataStoreService.selectedOption == 'Distance'" (click)="dataStoreService.selectedOption = 'Distance'"> Distance
           </label>
         </div>
@@ -134,7 +150,7 @@
           <div class="input-group mb-3">
             <input type="number" class="form-control" placeholder="000" name="distance" [(ngModel)]="dataStoreService.distance">
             <div class="input-group-append">
-              <span class="input-group-text">&nbsp;&nbsp;miles&nbsp;&nbsp;</span>
+              <span class="input-group-text">&nbsp;&nbsp;{{ dataStoreService.distanceType == 'Miles' ? 'miles' : 'kilometers' }}&nbsp;&nbsp;</span>
             </div>
           </div>
         </div>

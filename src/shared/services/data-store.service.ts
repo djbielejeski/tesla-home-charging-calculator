@@ -33,6 +33,10 @@ export class DataStoreService {
     if(!this.distance) {
       this.distance = 150;
     }
+
+    if(!this.distanceType) {
+      this.distanceType = 'Miles';
+    }
   }
 
   get kwhPrice(): number {
@@ -95,6 +99,16 @@ export class DataStoreService {
 
   set distance(value: number) {
     localStorage.setItem(this.key + "distance", '' + value);
+  }
+
+  get distanceType(): string {
+    return localStorage.getItem(this.key + "distanceType");
+  }
+
+  set distanceType(value: string) {
+    if (value == 'Miles' || value == 'Kilometers') {
+      localStorage.setItem(this.key + "distanceType", value);
+    }
   }
 
 }
